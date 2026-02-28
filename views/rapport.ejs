@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport du Projet</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body { background-color: #f4f6f9; }
+        .navbar-brand { font-weight: 700; }
+
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            color: white;
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            margin-bottom: 2rem;
+        }
+        .hero h1 { font-size: 2rem; font-weight: 800; }
+        .hero p  { opacity: 0.85; font-size: 1rem; }
+
+        .section-card {
+            border: none;
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            margin-bottom: 1.5rem;
+        }
+        .section-card .card-header {
+            border-radius: 14px 14px 0 0 !important;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 1rem 1.5rem;
+        }
+        .section-card .card-body {
+            padding: 1.5rem;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .tool-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 0.6rem 1rem;
+            margin: 0.3rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .tool-badge i { font-size: 1.2rem; }
+
+        .problem-card {
+            border-left: 5px solid #dc3545;
+            background: #fff8f8;
+            border-radius: 0 10px 10px 0;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .problem-card .solution {
+            border-left: 5px solid #198754;
+            background: #f0fff4;
+            border-radius: 0 8px 8px 0;
+            padding: 0.7rem 1rem;
+            margin-top: 0.7rem;
+            font-size: 0.9rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 0.7rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .feature-item:last-child { border-bottom: none; }
+        .feature-icon {
+            width: 36px; height: 36px;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .info-badge {
+            background: #e8f4fd;
+            color: #0d6efd;
+            border-radius: 8px;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+            display: inline-block;
+            margin: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/"><i class="bi bi-clipboard2-check me-2"></i>TaskManager</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="/"><i class="bi bi-house me-1"></i>Accueil</a></li>
+                <li class="nav-item"><a class="nav-link" href="/dashboard"><i class="bi bi-bar-chart me-1"></i>Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/rapport"><i class="bi bi-file-text me-1"></i>Rapport</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+
+    <!-- HERO -->
+    <div class="hero text-center">
+        <div class="mb-3">
+            <span class="badge bg-light text-dark px-3 py-2 rounded-pill fs-6">
+    
+                L2 DATA SCIENCE BIG DATA
+            </span>
+        </div>
+        <h1><i class="bi bi-clipboard2-check me-2"></i>Gestionnaire de Tâches</h1>
+        <p class="mt-2 mb-0">Rapport de projet — Application web développée avec Express.js</p>
+        <div class="mt-3">
+            <span class="badge bg-light bg-opacity-20 text-white px-3 py-2 me-2">
+                <i class="bi bi-person-fill me-1"></i>Aissata Diallo
+            </span>
+            <span class="badge bg-light bg-opacity-20 text-white px-3 py-2">
+                <i class="bi bi-calendar me-1"></i>Février 2026
+            </span>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+
+            <!-- PRÉSENTATION DU PROJET -->
+            <div class="card section-card">
+                <div class="card-header bg-primary text-white">
+                    <i class="bi bi-info-circle me-2"></i>Présentation du projet
+                </div>
+                <div class="card-body">
+                    <p>
+                        Ce projet est une application web de <strong>gestion des tâches</strong> développée dans le cadre
+                        du mini-projet de L2 data science. Elle permet à une entreprise de gérer efficacement
+                        les tâches assignées à ses employés.
+                    </p>
+                    <p>
+                        L'application repose sur une architecture <strong>MVC (Modèle - Vue - Contrôleur)</strong>
+                        avec Express.js côté serveur, EJS pour le rendu des vues, et MySQL pour la persistance
+                        des données.
+                    </p>
+                    <p class="mb-0">
+                        Chaque tâche possède un titre, une description, une priorité, un statut,
+                        une date de création, une date limite et un responsable. L'utilisateur peut
+                        suivre l'avancement de chaque tâche en temps réel depuis l'interface.
+                    </p>
+                </div>
+            </div>
+
+            <!-- FONCTIONNALITÉS -->
+            <div class="card section-card">
+                <div class="card-header bg-success text-white">
+                    <i class="bi bi-check2-square me-2"></i>Fonctionnalités développées
+                </div>
+                <div class="card-body">
+
+                    <div class="feature-item">
+                        <div class="feature-icon bg-primary bg-opacity-10 text-primary">
+                            <i class="bi bi-plus-circle"></i>
+                        </div>
+                        <div>
+                            <strong>Ajout de tâche</strong><br>
+                            <span class="text-muted small">Formulaire complet avec titre, description, priorité, date limite et responsable.
+                            Le statut initial est automatiquement défini à <em>« à faire »</em> et la date de création est générée côté serveur.</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon bg-warning bg-opacity-10 text-warning">
+                            <i class="bi bi-arrow-repeat"></i>
+                        </div>
+                        <div>
+                            <strong>Changement de statut</strong><br>
+                            <span class="text-muted small">Progression en un clic : <em>À faire → En cours → Terminée</em>.
+                            Une tâche terminée ne peut plus être modifiée.</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon bg-danger bg-opacity-10 text-danger">
+                            <i class="bi bi-pencil"></i>
+                        </div>
+                        <div>
+                            <strong>Modification et suppression</strong><br>
+                            <span class="text-muted small">Seules les tâches <em>« à faire »</em> et <em>« en cours »</em>
+                            peuvent être modifiées. La suppression est protégée par une confirmation.</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon bg-info bg-opacity-10 text-info">
+                            <i class="bi bi-search"></i>
+                        </div>
+                        <div>
+                            <strong>Recherche et filtrage</strong><br>
+                            <span class="text-muted small">Recherche par mot-clé dans le titre et la description,
+                            filtre par statut et filtre par priorité, combinables entre eux.</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon bg-danger bg-opacity-10 text-danger">
+                            <i class="bi bi-clock-fill"></i>
+                        </div>
+                        <div>
+                            <strong>Détection des retards</strong><br>
+                            <span class="text-muted small">Une tâche est marquée en retard si elle n'est pas terminée
+                            et que sa date limite est dépassée. Une alerte visuelle est affichée automatiquement.</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon bg-success bg-opacity-10 text-success">
+                            <i class="bi bi-bar-chart"></i>
+                        </div>
+                        <div>
+                            <strong>Tableau de bord</strong><br>
+                            <span class="text-muted small">Statistiques en temps réel : nombre total de tâches,
+                            tâches terminées,et nombre de tâches en retard.</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PROBLÈMES RENCONTRÉS -->
+            <div class="card section-card">
+                <div class="card-header bg-danger text-white">
+                    <i class="bi bi-bug me-2"></i>Problèmes rencontrés & Solutions
+                </div>
+                <div class="card-body">
+
+                    <!-- Problème 1 -->
+                    <div class="problem-card">
+                        <strong><i class="bi bi-exclamation-triangle-fill me-2 text-danger"></i>
+                        Problème 1 — Connexion avec localhost refusée</strong>
+                        <p class="mt-2 mb-0 small text-muted">
+                            Lors du lancement du serveur, la connexion via <code>localhost:3000</code>
+                            était refusée par le navigateur. Le serveur démarrait correctement mais
+                            la page ne se chargeait pas.
+                        </p>
+                        <div class="solution">
+                            <i class="bi bi-check-circle-fill me-2 text-success"></i>
+                            <strong>Solution :</strong> Remplacer <code>localhost</code> par
+                            <code>127.0.0.1</code> dans la configuration du serveur Express :
+                            <code>app.listen(3000, "127.0.0.1", ...)</code>.
+                            Sur certaines machines Windows, Node.js résout <code>localhost</code>
+                            en IPv6 (<code>::1</code>) ce qui cause un conflit avec MySQL qui écoute en IPv4.
+                        </div>
+                    </div>
+
+                    <!-- Problème 2 -->
+                    <div class="problem-card">
+                        <strong><i class="bi bi-exclamation-triangle-fill me-2 text-danger"></i>
+                        Problème 2 — Gestion des dates avec MySQL</strong>
+                        <p class="mt-2 mb-0 small text-muted">
+                            La colonne <code>date_creation</code> de type <code>DATE</code> dans MySQL
+                            ne prenait pas en charge les valeurs automatiques comme
+                            <code>CURRENT_TIMESTAMP</code>. La date n'était pas enregistrée correctement.
+                        </p>
+                        <div class="solution">
+                            <i class="bi bi-check-circle-fill me-2 text-success"></i>
+                            <strong>Solution :</strong> Générer la date côté serveur avec JavaScript :
+                            <code>const date_creation = new Date();</code> avant l'insertion SQL,
+                            puis la passer directement dans la requête. MySQL accepte les objets
+                            Date JavaScript envoyés via mysql2.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- COLONNE DROITE -->
+        <div class="col-lg-4">
+
+            <!-- OUTILS UTILISÉS -->
+            <div class="card section-card">
+                <div class="card-header bg-dark text-white">
+                    <i class="bi bi-tools me-2"></i>Outils utilisés
+                </div>
+                <div class="card-body">
+
+                    <p class="small text-muted fw-semibold mb-2">Environnement de développement</p>
+                    <div class="tool-badge">
+                        <i class="bi bi-code-slash text-primary"></i> Visual Studio Code
+                    </div>
+                    <div class="tool-badge">
+                        <i class="bi bi-terminal text-dark"></i> Terminal PowerShell
+                    </div>
+                    <div class="tool-badge">
+                        <i class="bi bi-globe text-info"></i> Navigateur Chrome
+                    </div>
+
+                    <hr>
+
+                    <p class="small text-muted fw-semibold mb-2">Base de données</p>
+                    <div class="tool-badge">
+                        <i class="bi bi-database text-warning"></i> MySQL
+                    </div>
+                   
+
+                    <hr>
+
+                    <p class="small text-muted fw-semibold mb-2">Front-end</p>
+                    <div class="tool-badge">
+                        <i class="bi bi-bootstrap text-purple" style="color:#7952b3"></i> Bootstrap 5.3
+                    </div>
+                    <div class="tool-badge">
+                        <i class="bi bi-star text-warning"></i> Bootstrap Icons
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PACKAGES NPM -->
+            <div class="card section-card">
+                <div class="card-header bg-warning text-dark">
+                    <i class="bi bi-box-seam me-2"></i>Packages installés
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted mb-3">Installés via <code>npm install</code></p>
+
+                    <div class="mb-3">
+                        <span class="info-badge">express</span>
+                        <p class="small text-muted mt-1 mb-0">
+                            Framework web Node.js pour créer le serveur et gérer les routes HTTP.
+                        </p>
+                    </div>
+
+                    <div class="mb-3">
+                        <span class="info-badge">ejs</span>
+                        <p class="small text-muted mt-1 mb-0">
+                            Moteur de templates pour générer les pages HTML dynamiquement côté serveur.
+                        </p>
+                    </div>
+
+                    <div class="mb-3">
+                        <span class="info-badge">mysql2</span>
+                        <p class="small text-muted mt-1 mb-0">
+                            Connecteur Node.js pour communiquer avec la base de données MySQL.
+                        </p>
+                    </div>
+
+                    <div class="mb-0">
+                        <span class="info-badge">body-parser</span>
+                        <p class="small text-muted mt-1 mb-0">
+                            Middleware pour lire les données envoyées via les formulaires HTML (POST).
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STRUCTURE DU PROJET -->
+            <div class="card section-card">
+                <div class="card-header bg-secondary text-white">
+                    <i class="bi bi-folder2-open me-2"></i>Structure du projet
+                </div>
+                <div class="card-body">
+                    <pre class="mb-0 small" style="background:#f8f9fa; padding:1rem; border-radius:8px; line-height:1.8;">
+📁 PROJET_EXAM/
+├── 📄 app.js
+├── 📁 config/
+│   └── 📄 db.js
+├── 📁 route/
+│   └── 📄 tache_route.js
+├── 📁 views/
+│   ├── 📄 index.ejs
+│   ├── 📄 modifier.ejs
+│   ├── 📄 dashboard.ejs
+│   └── 📄 rapport.ejs
+└── 📁 public/</pre>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

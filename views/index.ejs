@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Tâches</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        /* Bordure gauche selon priorité */
+        .card-haute {
+            border-left: 5px solid #dc3545 !important;
+        }
+
+        .card-moyenne {
+            border-left: 5px solid #fd7e14 !important;
+        }
+
+        .card-basse {
+            border-left: 5px solid #198754 !important;
+        }
+
+        /* Fond rose si en retard */
+        .card-retard {
+            background-color: #fff5f5 !important;
+        }
+
+        .card {
+            transition: transform .15s, box-shadow .15s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, .1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="bi bi-clipboard2-check me-2"></i>TaskManager</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="/"><i class="bi bi-house me-1"></i>Accueil</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/dashboard"><i
+                                class="bi bi-bar-chart me-1"></i>Dashboard</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+
+        <!-- TITRE PAGE -->
+        <h2 class="fw-bold mb-4"><i class="bi bi-list-task me-2 text-primary"></i>Gestion des Tâches</h2>
+
+        <!-- ALERTE RETARD -->
+        <% const retards=tache.filter(t=> t.en_retard); %>
+            <% if (retards.length> 0) { %>
+                <div class="alert alert-danger d-flex align-items-center mb-4">
+                    <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+                    <div><strong>
+                            <%= retards.length %> tâche(s) en retard !
+                        </strong> Veuillez traiter ces tâches en priorité.</div>
+                </div>
+                <% } %>
+
+                    <div class="row g-4">
+
+                        <!-- COLONNE GAUCHE : Filtres + Formulaire ajout -->
+                        <div class="col-lg-4">
+
+                            <!-- FILTRES -->
+                            <div class="card shadow-sm border-0 rounded-3 mb-4">
+                                <div class="card-header bg-primary text-white fw-semibold">
+                                    <i class="bi bi-funnel me-1"></i>Recherche & Filtres
+                                </div>
+                                <div class="card-body">
+                                    <form method="GET" action="/">
+                                        <div class="mb-2">
+                                            <input type="text" class="form-control form-control-sm" name="search"
+                                                placeholder="Rechercher titre ou description…" value="<%= search %>">
+                                        </div>
+                                        <div class="mb-2">
+                                            <select class="form-select form-select-sm" name="statut">
+                                                <option value="">Tous les statuts</option>
+                                                <option value="a faire" <%=statut==='a faire' ? 'selected' : '' %>>À
+                                                    faire</option>
+                                                <option value="en cours" <%=statut==='en cours' ? 'selected' : '' %>>En
+                                                    cours</option>
+                                                <option value="termine" <%=statut==='termine' ? 'selected' : '' %>
+                                                    >Terminé</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <select class="form-select form-select-sm" name="priorite">
+                                                <option value="">Toutes les priorités</option>
+                                                <option value="basse" <%=priorite==='basse' ? 'selected' : '' %>>🟢
+                                                    Basse</option>
+                                                <option value="moyenne" <%=priorite==='moyenne' ? 'selected' : '' %>>🟠
+                                                    Moyenne</option>
+                                                <option value="haute" <%=priorite==='haute' ? 'selected' : '' %>>🔴
+                                                    Haute</option>
+                                            </select>
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                            <button type="submit" class="btn btn-primary btn-sm w-100">
+                                                <i class="bi bi-search me-1"></i>Filtrer
+                                            </button>
+                                            <a href="/" class="btn btn-outline-secondary btn-sm w-100">Reset</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- FORMULAIRE AJOUT -->
+                            <div class="card shadow-sm border-0 rounded-3">
+                                <div class="card-header bg-success text-white fw-semibold">
+                                    <i class="bi bi-plus-circle me-1"></i>Ajouter une tâche
+                                </div>
+                                <div class="card-body">
+                                    <form action="/ajouter" method="POST">
+
+                                        <div class="mb-2">
+                                            <input type="text" class="form-control form-control-sm" name="titre"
+                                                placeholder="Titre *" required>
+                                        </div>
+
+                                        <div class="mb-2">
+                                            <textarea class="form-control form-control-sm" name="description"
+                                                placeholder="Description" rows="2"></textarea>
+                                        </div>
+
+                                        <div class="mb-2">
+                                            <select class="form-select form-select-sm" name="priorite">
+                                                <option value="basse">🟢 Basse</option>
+                                                <option value="moyenne">🟠 Moyenne</option>
+                                                <option value="haute">🔴 Haute</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-2">
+                                            <label class="form-label small text-muted mb-1">Date limite *</label>
+                                            <input type="date" class="form-control form-control-sm" name="date_limite"
+                                                required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control form-control-sm" name="responsable"
+                                                placeholder="Responsable (Nom Prénom) *" required>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-success btn-sm w-100">
+                                            <i class="bi bi-check2-circle me-1"></i>Enregistrer
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- COLONNE DROITE : Liste des tâches -->
+                        <div class="col-lg-8">
+                            <h5 class="fw-bold mb-3">
+                                Toutes les tâches
+                                <span class="badge bg-secondary ms-2">
+                                    <%= tache.length %>
+                                </span>
+                            </h5>
+
+                            <% if (tache.length===0) { %>
+                                <div class="text-center py-5 text-muted">
+                                    <i class="bi bi-inbox display-4 d-block mb-3"></i>
+                                    <p>Aucune tâche trouvée.</p>
+                                </div>
+                                <% } else { %>
+                                    <% tache.forEach(t=> { %>
+                                        <% const statutBadge=t.statut==='a faire' ? 'primary' : (t.statut==='en cours'
+                                            ? 'warning' : 'success' ); const statutLabel=t.statut==='a faire'
+                                            ? 'À faire' : (t.statut==='en cours' ? 'En cours' : 'Terminée' ); const
+                                            statutIcon=t.statut==='a faire' ? 'bi-bookmark' : (t.statut==='en cours'
+                                            ? 'bi-arrow-repeat' : 'bi-check-circle-fill' ); const
+                                            prioIcon=t.priorite==='haute' ? '🔴' : (t.priorite==='moyenne' ? '🟠' : '🟢'
+                                            ); const dateLimite=new Date(t.date_limite).toLocaleDateString('fr-FR');
+                                            const dateCreation=new Date(t.date_creation).toLocaleDateString('fr-FR');
+                                            const prochainBtn=t.statut==='a faire' ? 'Passer En cours' :
+                                            (t.statut==='en cours' ? 'Terminer' : null); %>
+                                            <div
+                                                class="card mb-3 border shadow-sm card-<%= t.priorite %> <%= t.en_retard ? 'card-retard' : '' %>">
+                                                <div class="card-body">
+
+                                                    <!-- Titre + badge retard -->
+                                                    <div class="d-flex justify-content-between align-items-start mb-1">
+                                                        <h6 class="fw-bold mb-0">
+                                                            <%= t.titre %>
+                                                        </h6>
+                                                        <% if (t.en_retard) { %>
+                                                            <span class="badge bg-danger ms-2">
+                                                                <i class="bi bi-clock-fill me-1"></i>En retard
+                                                            </span>
+                                                            <% } %>
+                                                    </div>
+
+                                                    <!-- Description -->
+                                                    <p class="text-muted small mb-2">
+                                                        <%= t.description || 'Aucune description.' %>
+                                                    </p>
+
+                                                    <!-- Badges statut + priorité -->
+                                                    <div class="mb-2">
+                                                        <span class="badge bg-<%= statutBadge %> me-1">
+                                                            <i class="bi <%= statutIcon %> me-1"></i>
+                                                            <%= statutLabel %>
+                                                        </span>
+                                                        <span class="badge bg-secondary">
+                                                            <%= prioIcon %>
+                                                                <%= t.priorite %>
+                                                        </span>
+                                                    </div>
+
+                                                    <!-- Infos -->
+                                                    <div class="small text-muted mb-3">
+                                                        <span class="me-3"><i
+                                                                class="bi bi-person-fill me-1 text-primary"></i><strong>
+                                                                <%= t.responsable %>
+                                                            </strong></span>
+                                                        <span class="me-3"><i
+                                                                class="bi bi-calendar-event me-1 text-warning"></i>Limite
+                                                            : <strong>
+                                                                <%= dateLimite %>
+                                                            </strong></span>
+                                                        <span><i class="bi bi-clock-history me-1"></i>Créée : <%=
+                                                                dateCreation %></span>
+                                                    </div>
+
+                                                    <!-- Actions -->
+                                                    <div class="d-flex flex-wrap gap-2">
+                                                        <% if (prochainBtn) { %>
+                                                            <a href="/changer-statut/<%= t.id %>"
+                                                                class="btn btn-sm btn-outline-primary"
+                                                                onclick="return confirm('Changer le statut ?')">
+                                                                <i class="bi bi-arrow-right-circle me-1"></i>
+                                                                <%= prochainBtn %>
+                                                            </a>
+                                                            <% } %>
+
+                                                                <% if (t.statut !=='termine' ) { %>
+                                                                    <a href="/modifier/<%= t.id %>"
+                                                                        class="btn btn-sm btn-outline-warning">
+                                                                        <i class="bi bi-pencil me-1"></i>Modifier
+                                                                    </a>
+                                                                    <% } %>
+
+                                                                        <a href="/supprimer/<%= t.id %>"
+                                                                            class="btn btn-sm btn-outline-danger"
+                                                                            onclick="return confirm('Supprimer cette tâche ?')">
+                                                                            <i class="bi bi-trash me-1"></i>Supprimer
+                                                                        </a>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <% }) %>
+                                                <% } %>
+                        </div>
+
+                    </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
